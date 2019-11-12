@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang='en'>
 	<head>
+		<meta charset='utf-8' />
 		<title>CRC Calculator</title>
 		<style>
 			body {
@@ -25,24 +26,85 @@
 			}
 			input {
 				margin: 4px;
+				width: 200px;
+			}
+			p {
+				margin: 4px;
+				width: 200px;
+			}
+			input[type=number]::-webkit-inner-spin-button, 
+			input[type=number]::-webkit-outer-spin-button { 
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				appearance: none;
+				margin: 0; 
+			}
+			input[type=number] {
+				-moz-appearance:textfield;
 			}
 		</style>
+		<script>
+			function xor(a, b) {
+				if (a == b)
+					return 0;
+				else
+					return 1;
+			}
+			function addString(a, b) {
+				let newString = '';
+				for (let i=0; i<a.length; i++) {
+					newString += (parseInt(a[i]) + parseInt(b[i])).toString();
+				}
+				return newString;
+			}
+			function encodeMessage() {
+				var message = document.getElementById('inputMessage').value;
+				var code = document.getElementById('inputCode').value;
+				var paddedMessage = '';
+				for (let i=0; i<message.length+code.length-1; i++) {
+					if (i<message.length)
+						paddedMessage += message[i];
+					else
+						paddedMessage += '0';
+				}
+				console.log(paddedMessage)
+				var remainder = paddedMessage;
+				for (let i=0; i<=paddedMessage.length-code.length; i++) {
+					if (remainder[i] != '0') {
+						for (let j=0; j<code.length; j++) {
+							remainder = remainder.substring(0, i+j) + xor(remainder[i+j], code[j]).toString() + remainder.substring(i+j+1, remainder.length);
+						}
+						console.log(remainder)
+					}
+				}
+				console.log("Remainder : " + remainder);
+				document.getElementById('remainder').innerHTML = remainder;
+				let encodedMessage = addString(remainder, paddedMessage);
+				console.log("Encoded message : " + encodedMessage);
+				document.getElementById('encodedMessage').innerHTML = encodedMessage;
+			}
+		</script>
 	</head>
 	<body>
 		<div id="divContent">
 			<h1>CRC Calculator</h1>
 			<div class="divInput">
 				<label>Message</label>
-				<input id="inputMessage" type="number" />
+				<input id="inputMessage" type="number" align="right" />
 			</div>
 			<div class="divInput">
 				<label>Code</label>
-				<input id="inputCode" type="number" />
+				<input id="inputCode" type="number" align="right" />
+			</div>
+			<div class="divInput">
+				<label>Remainder</label>
+				<p id="remainder" align="right" />
 			</div>
 			<div class="divInput">
 				<label>Encoded Message</label>
-				<input id="encodedMessage" type="number" />
+				<p id="encodedMessage" align="right" />
 			</div>
+			<button id="buttonCalculate" onclick="encodeMessage()">Calculate</button>
 		</div>
 	</body>
 </html>
