@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>CRC Calculator</title>
+		<style>
+			body {
+				margin: 0px;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+			#divContent {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+			.divInput {
+				display: flex;
+				flex-direction: row;
+			}
+			label {
+				margin: 4px;
+				width: 200px;
+			}
+			input {
+				margin: 4px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="divContent">
+			<h1>CRC Calculator</h1>
+			<div class="divInput">
+				<label>Message</label>
+				<input id="inputMessage" type="number" />
+			</div>
+			<div class="divInput">
+				<label>Code</label>
+				<input id="inputCode" type="number" />
+			</div>
+			<div class="divInput">
+				<label>Encoded Message</label>
+				<input id="encodedMessage" type="number" />
+			</div>
+		</div>
+	</body>
+</html>
